@@ -239,8 +239,8 @@ Or configure manually:
 
 ```bash
 # Set URLs individually
-multica config set server_url http://localhost:8080
-multica config set app_url http://localhost:3000
+multica config set server_url http://localhost:57890
+multica config set app_url http://localhost:57891
 
 # For production with TLS:
 # multica config set server_url https://api.example.com

@@ -315,7 +315,7 @@ func (l *lockedWriter) Write(p []byte) (int, error) {
 func TestCheckOrigin(t *testing.T) {
 	prev := allowedWSOrigins.Load().([]string)
 	SetAllowedOrigins([]string{
-		"http://localhost:3000",
+		"http://localhost:57891",
 		"https://multica.ai",
 	})
 	t.Cleanup(func() { SetAllowedOrigins(prev) })
@@ -327,13 +327,13 @@ func TestCheckOrigin(t *testing.T) {
 		want   bool
 	}{
 		{"empty origin allowed", "api.multica.ai", "", true},
-		{"same-origin allowed (native client default)", "localhost:8080", "http://localhost:8080", true},
+		{"same-origin allowed (native client default)", "localhost:57890", "http://localhost:57890", true},
 		{"same-origin allowed (https)", "api.multica.ai", "https://api.multica.ai", true},
 		{"same-origin allowed (case-insensitive host, RFC 7230)", "API.Multica.AI", "https://api.multica.ai", true},
-		{"whitelisted origin allowed (web cross-origin)", "localhost:8080", "http://localhost:3000", true},
+		{"whitelisted origin allowed (web cross-origin)", "localhost:57890", "http://localhost:57891", true},
 		{"whitelisted origin allowed (prod web)", "api.multica.ai", "https://multica.ai", true},
 		{"unknown origin rejected (CSWSH defense)", "api.multica.ai", "https://evil.com", false},
-		{"different port rejected", "localhost:8080", "http://localhost:9999", false},
+		{"different port rejected", "localhost:57890", "http://localhost:9999", false},
 	}
 
 	for _, tc := range cases {

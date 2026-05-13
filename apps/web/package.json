@@ -4,9 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "sh -c 'next dev --port \"${FRONTEND_PORT:-3000}\"'",
+    "dev": "sh -c 'next dev --port \"${FRONTEND_PORT:-57891}\"'",
     "build": "next build",
-    "start": "next start",
+    "start": "sh -c 'next start --port \"${FRONTEND_PORT:-57891}\"'",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "test": "vitest run"

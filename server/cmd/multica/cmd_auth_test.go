@@ -64,8 +64,8 @@ func TestResolveCallbackBinding(t *testing.T) {
 		},
 		{
 			name:         "localhost app URL stays on loopback",
-			appURL:       "http://localhost:3000",
-			serverURL:    "http://localhost:8080",
+			appURL:       "http://localhost:57891",
+			serverURL:    "http://localhost:57890",
 			detect:       failing,
 			wantCallback: "localhost",
 			wantBind:     "127.0.0.1",
@@ -233,8 +233,8 @@ func TestNormalizeAPIBaseURL(t *testing.T) {
 	})
 
 	t.Run("keeps http base URL", func(t *testing.T) {
-		if got := normalizeAPIBaseURL("http://localhost:8080"); got != "http://localhost:8080" {
-			t.Fatalf("normalizeAPIBaseURL() = %q, want %q", got, "http://localhost:8080")
+		if got := normalizeAPIBaseURL("http://localhost:57890"); got != "http://localhost:57890" {
+			t.Fatalf("normalizeAPIBaseURL() = %q, want %q", got, "http://localhost:57890")
 		}
 	})
 

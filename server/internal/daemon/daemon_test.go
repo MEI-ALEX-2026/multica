@@ -44,12 +44,12 @@ func createDaemonTestRepo(t *testing.T) string {
 func TestNormalizeServerBaseURL(t *testing.T) {
 	t.Parallel()
 
-	got, err := NormalizeServerBaseURL("ws://localhost:8080/ws")
+	got, err := NormalizeServerBaseURL("ws://localhost:57890/ws")
 	if err != nil {
 		t.Fatalf("NormalizeServerBaseURL returned error: %v", err)
 	}
-	if got != "http://localhost:8080" {
-		t.Fatalf("expected http://localhost:8080, got %s", got)
+	if got != "http://localhost:57890" {
+		t.Fatalf("expected http://localhost:57890, got %s", got)
 	}
 }
 
@@ -205,7 +205,7 @@ func TestProviderNeedsInlineSystemPrompt(t *testing.T) {
 func TestBuildPromptContainsIssueID(t *testing.T) {
 	t.Parallel()
 
-	issueID := "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+	issueID := "a1b2c3d4-e5f6-7890-abcd-ef1234557890"
 	prompt := BuildPrompt(Task{
 		IssueID: issueID,
 		Agent: &AgentData{
@@ -282,8 +282,8 @@ func TestBuildPromptAutopilotRunOnly(t *testing.T) {
 func TestBuildPromptCommentTriggered(t *testing.T) {
 	t.Parallel()
 
-	issueID := "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
-	commentID := "c1c2c3c4-d5d6-7890-abcd-ef1234567890"
+	issueID := "a1b2c3d4-e5f6-7890-abcd-ef1234557890"
+	commentID := "c1c2c3c4-d5d6-7890-abcd-ef1234557890"
 	commentContent := "请把报告翻译成英文"
 
 	prompt := BuildPrompt(Task{

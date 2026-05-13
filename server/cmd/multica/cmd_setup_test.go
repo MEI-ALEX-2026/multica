@@ -8,9 +8,9 @@ func TestServerHostIsLocal(t *testing.T) {
 		server string
 		want   bool
 	}{
-		{"localhost", "http://localhost:8080", true},
-		{"127.0.0.1", "http://127.0.0.1:8080", true},
-		{"IPv6 loopback", "http://[::1]:8080", true},
+		{"localhost", "http://localhost:57890", true},
+		{"127.0.0.1", "http://127.0.0.1:57890", true},
+		{"IPv6 loopback", "http://[::1]:57890", true},
 		{"LAN IP", "http://192.168.0.28:8080", false},
 		{"public FQDN", "https://api.internal.co", false},
 		{"unparseable", "://bad", false},

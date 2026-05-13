@@ -10,9 +10,9 @@ describe("runtime config", () => {
   it("uses local self-host defaults without a desktop.json file", () => {
     expect(DEFAULT_RUNTIME_CONFIG).toEqual({
       schemaVersion: 1,
-      apiUrl: "http://localhost:8080",
-      wsUrl: "ws://localhost:8080/ws",
-      appUrl: "http://localhost:3000",
+      apiUrl: "http://localhost:57890",
+      wsUrl: "ws://localhost:57890/ws",
+      appUrl: "http://localhost:57891",
     });
   });
 
@@ -46,7 +46,7 @@ describe("runtime config", () => {
   });
 
   it("derives ws for http api URLs", () => {
-    expect(deriveWsUrl("http://localhost:8080")).toBe("ws://localhost:8080/ws");
+    expect(deriveWsUrl("http://localhost:57890")).toBe("ws://localhost:57890/ws");
   });
 
   it("accepts explicit appUrl and wsUrl", () => {
@@ -111,11 +111,11 @@ describe("runtime config", () => {
   });
 
   it("falls back to local web URL when dev apiUrl is localhost", () => {
-    expect(runtimeConfigFromDevEnv({ apiUrl: "http://localhost:8080" })).toEqual({
+    expect(runtimeConfigFromDevEnv({ apiUrl: "http://localhost:57890" })).toEqual({
       schemaVersion: 1,
-      apiUrl: "http://localhost:8080",
-      wsUrl: "ws://localhost:8080/ws",
-      appUrl: "http://localhost:3000",
+      apiUrl: "http://localhost:57890",
+      wsUrl: "ws://localhost:57890/ws",
+      appUrl: "http://localhost:57891",
     });
   });
 

@@ -67,7 +67,7 @@ macOS 版本已经签名 + 公证，第一次打开不会有"未知开发者"的
 安装后第一次打开需要登录——和 Web 版一样的 email + 验证码流程。登录成功后 Desktop 自动把工作区列表同步下来。
 
 <Callout type="info">
-**Desktop 默认连接本机自部署服务，也可以通过本地配置文件指向其他实例。** 应用内仍然没有连接目标切换入口。Desktop 会在 renderer 启动前读取 `~/.multica/desktop.json`；如果这个文件不存在，就使用 `http://localhost:8080` 作为 API，`http://localhost:3000` 作为 Web app。
+**Desktop 默认连接本机自部署服务，也可以通过本地配置文件指向其他实例。** 应用内仍然没有连接目标切换入口。Desktop 会在 renderer 启动前读取 `~/.multica/desktop.json`；如果这个文件不存在，就使用 `http://localhost:57890` 作为 API，`http://localhost:57891` 作为 Web app。
 
 最小自部署配置：
 

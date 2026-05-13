@@ -80,9 +80,9 @@ The `Secure` flag on session cookies is derived automatically from the scheme of
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `PORT` | `8080` | Backend server port |
+| `PORT` | `57890` | Backend server port |
 | `METRICS_ADDR` | empty | Optional Prometheus metrics listener, for example `127.0.0.1:9090` |
-| `FRONTEND_PORT` | `3000` | Frontend port |
+| `FRONTEND_PORT` | `57891` | Frontend port |
 | `CORS_ALLOWED_ORIGINS` | Value of `FRONTEND_ORIGIN` | Comma-separated list of allowed origins |
 | `LOG_LEVEL` | `info` | Log level: `debug`, `info`, `warn`, `error` |
 
@@ -92,8 +92,8 @@ These are configured on each user's machine, not on the server:
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `MULTICA_SERVER_URL` | `ws://localhost:8080/ws` | WebSocket URL for daemon → server connection |
-| `MULTICA_APP_URL` | `http://localhost:3000` | Frontend URL for CLI login flow |
+| `MULTICA_SERVER_URL` | `ws://localhost:57890/ws` | WebSocket URL for daemon → server connection |
+| `MULTICA_APP_URL` | `http://localhost:57891` | Frontend URL for CLI login flow |
 | `MULTICA_DAEMON_POLL_INTERVAL` | `3s` | How often the daemon polls for tasks |
 | `MULTICA_DAEMON_HEARTBEAT_INTERVAL` | `15s` | Heartbeat frequency |
 
@@ -166,7 +166,7 @@ make build
 DATABASE_URL="your-database-url" ./server/bin/migrate up
 
 # Start the backend server
-DATABASE_URL="your-database-url" PORT=8080 JWT_SECRET="your-secret" ./server/bin/server
+DATABASE_URL="your-database-url" PORT=57890 JWT_SECRET="your-secret" ./server/bin/server
 ```
 
 For the frontend:
@@ -177,7 +177,7 @@ pnpm build
 
 # Start the frontend (production mode)
 cd apps/web
-REMOTE_API_URL=http://localhost:8080 pnpm start
+REMOTE_API_URL=http://localhost:57890 pnpm start
 ```
 
 ## Reverse Proxy
@@ -193,13 +193,13 @@ multica.example.com {
     # WebSocket route — must come before the catch-all
     @multica_ws path /ws /ws/*
     handle @multica_ws {
-        reverse_proxy localhost:8080 {
+        reverse_proxy localhost:57890 {
             flush_interval -1
         }
     }
 
     # Everything else → frontend
-    reverse_proxy localhost:3000
+    reverse_proxy localhost:57891
 }
 ```
 
@@ -207,18 +207,18 @@ multica.example.com {
 
 ```
 app.example.com {
-    reverse_proxy localhost:3000
+    reverse_proxy localhost:57891
 }
 
 api.example.com {
     @multica_ws path /ws /ws/*
     handle @multica_ws {
-        reverse_proxy localhost:8080 {
+        reverse_proxy localhost:57890 {
             flush_interval -1
         }
     }
 
-    reverse_proxy localhost:8080
+    reverse_proxy localhost:57890
 }
 ```
 
@@ -239,7 +239,7 @@ server {
     ssl_certificate_key /path/to/key.pem;
 
     location / {
-        proxy_pass http://localhost:3000;
+        proxy_pass http://localhost:57891;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -256,7 +256,7 @@ server {
     ssl_certificate_key /path/to/key.pem;
 
     location / {
-        proxy_pass http://localhost:8080;
+        proxy_pass http://localhost:57890;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -265,7 +265,7 @@ server {
 
     # WebSocket support
     location /ws {
-        proxy_pass http://localhost:8080;
+        proxy_pass http://localhost:57890;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
@@ -290,12 +290,12 @@ NEXT_PUBLIC_WS_URL=wss://api.example.com/ws
 
 ## LAN / Non-localhost Access
 
-By default, Multica works on `localhost`. If you access it from another machine on the LAN (e.g. `http://192.168.1.100:3000`), you need to tell the backend to accept that origin:
+By default, Multica works on `localhost`. If you access it from another machine on the LAN (e.g. `http://192.168.1.100:57891`), you need to tell the backend to accept that origin:
 
 ```bash
 # .env — replace with your server's LAN IP
-FRONTEND_ORIGIN=http://192.168.1.100:3000
-CORS_ALLOWED_ORIGINS=http://192.168.1.100:3000
+FRONTEND_ORIGIN=http://192.168.1.100:57891
+CORS_ALLOWED_ORIGINS=http://192.168.1.100:57891
 ```
 
 Then restart the stack:
@@ -306,15 +306,15 @@ docker compose -f docker-compose.selfhost.yml up -d
 
 ### WebSocket for LAN / Non-localhost Access
 
-HTTP requests (issues, comments, uploads) work on LAN out of the box — Next.js rewrites proxy `/api`, `/auth`, and `/uploads` to the backend. **WebSockets do not**: Next.js rewrites only forward HTTP requests, not the `Upgrade` handshake a WebSocket needs. If you open the app on `http://<lan-ip>:3000`, real-time features (chat streaming, live issue updates, notifications) will fail to connect until you do one of the following:
+HTTP requests (issues, comments, uploads) work on LAN out of the box — Next.js rewrites proxy `/api`, `/auth`, and `/uploads` to the backend. **WebSockets do not**: Next.js rewrites only forward HTTP requests, not the `Upgrade` handshake a WebSocket needs. If you open the app on `http://<lan-ip>:57891`, real-time features (chat streaming, live issue updates, notifications) will fail to connect until you do one of the following:
 
-1. **Put a reverse proxy in front of the stack (recommended).** Nginx or Caddy terminates the WebSocket upgrade and forwards it to the backend on port 8080. See the [Reverse Proxy](#reverse-proxy) section above — the Nginx example already includes a `location /ws { ... }` block with the correct `Upgrade` / `Connection` headers. Once a proxy is in place the browser connects directly through it, so no frontend rebuild is needed.
+1. **Put a reverse proxy in front of the stack (recommended).** Nginx or Caddy terminates the WebSocket upgrade and forwards it to the backend on port 57890. See the [Reverse Proxy](#reverse-proxy) section above — the Nginx example already includes a `location /ws { ... }` block with the correct `Upgrade` / `Connection` headers. Once a proxy is in place the browser connects directly through it, so no frontend rebuild is needed.
 
-2. **Bake a WebSocket URL into the web image.** If you are not running a reverse proxy, rebuild the web image with `NEXT_PUBLIC_WS_URL` pointing straight at the backend (port 8080 must be reachable from the browser):
+2. **Bake a WebSocket URL into the web image.** If you are not running a reverse proxy, rebuild the web image with `NEXT_PUBLIC_WS_URL` pointing straight at the backend (port 57890 must be reachable from the browser):
 
    ```bash
    # In .env
-   NEXT_PUBLIC_WS_URL=ws://<lan-ip>:8080/ws
+   NEXT_PUBLIC_WS_URL=ws://<lan-ip>:57890/ws
 
    # Rebuild the web image so the build-time value is baked in
    docker compose -f docker-compose.selfhost.yml -f docker-compose.selfhost.build.yml up -d --build

@@ -188,7 +188,7 @@ func (h *Handler) GitHubSetupCallback(w http.ResponseWriter, r *http.Request) {
 	state := q.Get("state")
 	frontend := strings.TrimSpace(os.Getenv("FRONTEND_ORIGIN"))
 	if frontend == "" {
-		frontend = "http://localhost:3000"
+		frontend = "http://localhost:57891"
 	}
 	settingsURL := strings.TrimRight(frontend, "/") + "/settings"
 

@@ -18,18 +18,18 @@ describe("loadRuntimeConfig", () => {
         isDev: true,
         configPath,
         env: {
-          apiUrl: "http://localhost:8080",
-          wsUrl: "ws://localhost:8080/ws",
-          appUrl: "http://localhost:3000",
+          apiUrl: "http://localhost:57890",
+          wsUrl: "ws://localhost:57890/ws",
+          appUrl: "http://localhost:57891",
         },
       }),
     ).resolves.toEqual({
       ok: true,
       config: {
         schemaVersion: 1,
-        apiUrl: "http://localhost:8080",
-        wsUrl: "ws://localhost:8080/ws",
-        appUrl: "http://localhost:3000",
+        apiUrl: "http://localhost:57890",
+        wsUrl: "ws://localhost:57890/ws",
+        appUrl: "http://localhost:57891",
       },
     });
   });
@@ -46,9 +46,9 @@ describe("loadRuntimeConfig", () => {
       ok: true,
       config: {
         schemaVersion: 1,
-        apiUrl: "http://localhost:8080",
-        wsUrl: "ws://localhost:8080/ws",
-        appUrl: "http://localhost:3000",
+        apiUrl: "http://localhost:57890",
+        wsUrl: "ws://localhost:57890/ws",
+        appUrl: "http://localhost:57891",
       },
     });
   });
