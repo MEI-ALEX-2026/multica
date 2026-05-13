@@ -17,6 +17,13 @@ dist-electron
 !apps/desktop/build/
 !apps/desktop/build/**
 
+# Electron desktop package artifacts
+apps/desktop/dist/
+apps/desktop/out/
+apps/desktop/dist/*.dmg
+apps/desktop/dist/*.zip
+apps/desktop/dist/*.blockmap
+
 # env
 .env*
 !.env.example

@@ -272,7 +272,6 @@ async function handleDaemonLogout() {
 
 export default function App() {
   const { version, os } = window.desktopAPI.appInfo;
-  const systemLocale = window.desktopAPI.systemLocale;
   const runtimeConfigResult = window.desktopAPI.runtimeConfig;
   // Stable identity reference so downstream effects (WS reconnect) don't
   // tear down on every parent render.
@@ -283,32 +282,14 @@ export default function App() {
   // Locale resolution happens once at app boot. Switching language goes
   // through window.location.reload() to avoid hydration mismatch.
   const localeAdapter = useMemo(
-    () => createDesktopLocaleAdapter(systemLocale),
-    [systemLocale],
+    () => createDesktopLocaleAdapter(window.desktopAPI.systemLocale),
+    [],
   );
   const locale = useMemo(() => pickLocale(localeAdapter), [localeAdapter]);
   const resources = useMemo(
     () => ({ [locale]: RESOURCES[locale] }),
     [locale],
   );
-
-  // React to OS-level language changes detected by main on focus regain.
-  // Only act when the user is following the system signal (no explicit
-  // Settings choice) — otherwise their preference wins. Cross-device sync
-  // for the explicit-choice case is handled inside CoreProvider.
-  useEffect(() => {
-    return window.desktopAPI.onSystemLocaleChanged((nextSystemLocale) => {
-      if (localeAdapter.getUserChoice()) return;
-      const next = pickLocale({
-        ...localeAdapter,
-        getSystemPreferences: () =>
-          nextSystemLocale ? [nextSystemLocale] : [],
-      });
-      if (next === locale) return;
-      localeAdapter.persist(next);
-      window.location.reload();
-    });
-  }, [localeAdapter, locale]);
 
   return (
     <ThemeProvider>

@@ -4,11 +4,12 @@ const STORAGE_KEY = "multica-locale";
 
 // Desktop adapter:
 //   - User choice: localStorage (set by Settings switcher).
-//   - System preference: locale main injected via additionalArguments
-//     (read from preload, exposed on window.desktopAPI.systemLocale).
+//   - Default locale: Simplified Chinese, unless the user explicitly chooses
+//     another language in Settings.
 //   - Persist: localStorage. The Settings switcher additionally PATCHes
 //     /api/me when logged in so user.language follows the user across devices.
 export function createDesktopLocaleAdapter(systemLocale: string): LocaleAdapter {
+  void systemLocale;
   return {
     getUserChoice() {
       try {
@@ -18,7 +19,7 @@ export function createDesktopLocaleAdapter(systemLocale: string): LocaleAdapter 
       }
     },
     getSystemPreferences() {
-      return systemLocale ? [systemLocale] : [];
+      return [];
     },
     persist(locale: SupportedLocale) {
       try {
