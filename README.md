@@ -87,7 +87,8 @@ irm https://raw.githubusercontent.com/multica-ai/multica/main/scripts/install.ps
 Then configure, authenticate, and start the daemon in one command:
 
 ```bash
-multica setup          # Connect to Multica Cloud, log in, start daemon
+multica setup          # Connect to self-hosted localhost, log in, start daemon
+multica setup cloud    # Connect to Multica Cloud instead
 ```
 
 > **Self-hosting?** Add `--with-server` to deploy a full Multica server on your machine:
@@ -152,8 +153,9 @@ The `multica` CLI connects your local machine to Multica — authenticate, manag
 | `multica login` | Authenticate (opens browser) |
 | `multica daemon start` | Start the local agent runtime |
 | `multica daemon status` | Check daemon status |
-| `multica setup` | One-command setup for Multica Cloud (configure + login + start daemon) |
-| `multica setup self-host` | Same, but for self-hosted deployments |
+| `multica setup` | One-command setup for self-hosted localhost (configure + login + start daemon) |
+| `multica setup cloud` | Same, but for Multica Cloud |
+| `multica setup self-host` | Same, but for custom self-hosted deployments |
 | `multica issue list` | List issues in your workspace |
 | `multica issue create` | Create a new issue |
 | `multica update` | Update to the latest version |

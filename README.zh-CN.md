@@ -87,7 +87,8 @@ irm https://raw.githubusercontent.com/multica-ai/multica/main/scripts/install.ps
 安装完成后，一条命令完成配置、认证和启动：
 
 ```bash
-multica setup          # 连接 Multica Cloud，登录，启动 daemon
+multica setup          # 连接本机自部署服务，登录，启动 daemon
+multica setup cloud    # 改为连接 Multica Cloud
 ```
 
 > **自部署？** 加上 `--with-server` 在本地部署完整的 Multica 服务：

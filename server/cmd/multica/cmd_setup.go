@@ -19,16 +19,17 @@ import (
 var setupCmd = &cobra.Command{
 	Use:   "setup",
 	Short: "Configure the CLI, authenticate, and start the daemon",
-	Long: `Configures the CLI to connect to Multica Cloud (multica.ai), then
+	Long: `Configures the CLI to connect to a self-hosted Multica server, then
 authenticates via browser and starts the agent daemon.
 
 If a configuration already exists, you will be prompted before overwriting.
 
-Use 'multica setup self-host' to connect to a self-hosted server instead.
+By default, connects to http://localhost:8080 (backend) and http://localhost:3000 (frontend).
+Use 'multica setup cloud' to connect to Multica Cloud instead.
 
 Use --profile to create an isolated configuration for a separate environment:
   multica setup self-host --profile staging --server-url https://api-staging.co`,
-	RunE: runSetupCloud,
+	RunE: runSetupSelfHost,
 }
 
 var setupCloudCmd = &cobra.Command{

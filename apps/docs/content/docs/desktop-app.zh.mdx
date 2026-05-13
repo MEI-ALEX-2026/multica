@@ -5,7 +5,7 @@ description: Multica Desktop 是什么、和 Web 有什么区别、什么时候�
 
 import { Callout } from "fumadocs-ui/components/callout";
 
-Multica Desktop 是原生桌面应用——macOS / Windows / Linux 三个平台。对它当前配置的环境来说，它和 Web 版连同一个后端、看到的数据完全一样。Desktop 默认使用 Multica Cloud；自部署实例可以通过本地运行时配置文件接入。它还给了几个 Web 做不到的能力：**[工作区](/workspaces) 独立的多标签页**、**自动启动 [守护进程](/daemon-runtimes)**、**一键升级**。
+Multica Desktop 是原生桌面应用——macOS / Windows / Linux 三个平台。对它当前配置的环境来说，它和 Web 版连同一个后端、看到的数据完全一样。Desktop 默认使用本机 `localhost` 自部署服务；如需连接 Cloud 或其他实例，可以通过本地运行时配置文件接入。它还给了几个 Web 做不到的能力：**[工作区](/workspaces) 独立的多标签页**、**自动启动 [守护进程](/daemon-runtimes)**、**一键升级**。
 
 ## Desktop 和 Web 该用哪个
 
@@ -67,7 +67,7 @@ macOS 版本已经签名 + 公证，第一次打开不会有"未知开发者"的
 安装后第一次打开需要登录——和 Web 版一样的 email + 验证码流程。登录成功后 Desktop 自动把工作区列表同步下来。
 
 <Callout type="info">
-**Desktop 默认连接 Multica Cloud，但可以通过本地配置文件指向自部署实例。** 应用内仍然没有“连接自部署”的切换入口。Desktop 会在 renderer 启动前读取 `~/.multica/desktop.json`；如果这个文件不存在，就使用 Cloud 默认值。
+**Desktop 默认连接本机自部署服务，也可以通过本地配置文件指向其他实例。** 应用内仍然没有连接目标切换入口。Desktop 会在 renderer 启动前读取 `~/.multica/desktop.json`；如果这个文件不存在，就使用 `http://localhost:8080` 作为 API，`http://localhost:3000` 作为 Web app。
 
 最小自部署配置：
 
